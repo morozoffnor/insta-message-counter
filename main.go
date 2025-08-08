@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"time"
 )
 
 type ShareInfo struct {
@@ -47,10 +48,12 @@ func SearchPerson(persons []*Person, name string) (*Person, error) {
 			return v, nil
 		}
 	}
-	return &Person{}, fmt.Errorf("Couldn't find a person: ", name)
+	return &Person{}, fmt.Errorf("Couldn't find a person: %s", name)
 }
 
 func main() {
+	start := time.Now()
+
 	args := os.Args[1:]
 	path := args[0]
 
@@ -81,6 +84,7 @@ func main() {
 	}
 
 	for _, p := range persons {
-		fmt.Println("User: ", p.Name, ", Messages count: ", p.MessagesCount)
+		fmt.Println("User:", p.Name, ", Messages count:", p.MessagesCount)
 	}
+	fmt.Printf("Done in %s\n", time.Since(start))
 }
